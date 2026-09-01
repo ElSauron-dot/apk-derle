@@ -1,6 +1,7 @@
 package com.manigram.app.ui.screens
 
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.NotificationsNone
@@ -11,7 +12,15 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.manigram.app.ui.theme.NeonPink
 import com.manigram.app.ui.viewmodel.MainViewModel
 
 private enum class Tab(val label: String) { FEED("Akış"), EXPLORE("Keşfet"), REELS("Reels"), PROFILE("Profil") }
@@ -40,9 +49,38 @@ fun MainScreen(viewModel: MainViewModel = viewModel()) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable private fun ManigramTopBar(onSearch: () -> Unit) = TopAppBar(
-    title = { Text("Manigram", color = MaterialTheme.colorScheme.primary, style = MaterialTheme.typography.headlineSmall) },
+    title = { ManigramBrand() },
     actions = {
         IconButton(onClick = {}) { Icon(Icons.Outlined.NotificationsNone, "Bildirimler") }
         IconButton(onClick = onSearch) { Icon(Icons.Outlined.Search, "Ara") }
     }, colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.background)
 )
+
+@Composable
+private fun ManigramBrand() = Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
+    Canvas(Modifier.size(34.dp)) {
+        val edge = size.minDimension
+        drawRoundRect(
+            color = NeonPink,
+            topLeft = Offset(edge * .04f, edge * .04f),
+            size = Size(edge * .92f, edge * .92f),
+            cornerRadius = CornerRadius(edge * .30f, edge * .30f)
+        )
+        drawRoundRect(
+            color = Color.Black,
+            topLeft = Offset(edge * .24f, edge * .24f),
+            size = Size(edge * .52f, edge * .52f),
+            cornerRadius = CornerRadius(edge * .15f, edge * .15f)
+        )
+        drawCircle(NeonPink, radius = edge * .12f, center = Offset(edge * .50f, edge * .50f))
+        drawCircle(Color.Black, radius = edge * .055f, center = Offset(edge * .72f, edge * .28f))
+    }
+    Spacer(Modifier.width(8.dp))
+    Text(
+        text = "MANIGRAM",
+        color = NeonPink,
+        fontSize = 19.sp,
+        fontWeight = FontWeight.ExtraBold,
+        letterSpacing = 1.4.sp
+    )
+}

@@ -21,7 +21,8 @@ data class MainUiState(
     val searchQuery: String = ""
 )
 
-class MainViewModel(private val repository: InstagramRepository = InstagramRepository()) : ViewModel() {
+class MainViewModel : ViewModel() {
+    private val repository = InstagramRepository()
     private val _uiState = MutableStateFlow(MainUiState())
     val uiState: StateFlow<MainUiState> = _uiState.asStateFlow()
     private val starterAccounts = listOf("natgeo", "nasa", "nike")
