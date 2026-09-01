@@ -23,7 +23,7 @@ interface InstagramApi {
 
 class InstagramRepository(private val api: InstagramApi = createApi()) {
     suspend fun getProfile(username: String): InstagramProfile {
-        require(USERNAME.matches(Regex("[A-Za-z0-9._]{1,30}"))) { "Geçerli bir kullanıcı adı girin." }
+        require(USERNAME.matches(username)) { "Geçerli bir kullanıcı adı girin." }
         val response = api.profile(username)
         val user = response.data?.user ?: response.legacyUser
             ?: error("Bu herkese açık profil bulunamadı veya Instagram yanıt vermedi.")
